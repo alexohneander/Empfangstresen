@@ -14,19 +14,21 @@ class Controller {
     }
 
     async getAll(req, res) {
-        logger.info('Controller: Getting all', { controller: this.constructor.name, service: this.service.constructor.name, method: 'getAll' });
-        return res.status(200).send(await this.service.getAll(req.query));
+        let response = await this.service.getAll(req.query);
+        logger.info('Controller: Getting all', { controller: this.constructor.name, service: this.service.constructor.name, method: 'getAll', responseCount: response.total });
+
+        return res.status(200).send(response);
     }
 
     async insert(req, res) {
         let response = await this.service.insert(req.body);
 
         if (response.error) {
-            logger.error('Controller: Insert', { controller: this.constructor.name, service: this.service.constructor.name, method: 'Insert' });
+            logger.error('Controller: Insert', { controller: this.constructor.name, service: this.service.constructor.name, method: 'Insert', error: response.error });
             return res.status(response.statusCode).send(response);
         }
 
-        logger.info('Controller: Insert', { controller: this.constructor.name, service: this.service.constructor.name, method: 'Insert' });
+        logger.info('Controller: Insert', { controller: this.constructor.name, service: this.service.constructor.name, method: 'Insert', requestBody: req.body });
         return res.status(201).send(response);
     }
 
@@ -34,6 +36,7 @@ class Controller {
         const { id } = req.params;
 
         let response = await this.service.update(id, req.body);
+        logger.info('Controller: Update', { controller: this.constructor.name, service: this.service.constructor.name, method: 'Update', requestParams: req.params });
 
         return res.status(response.statusCode).send(response);
     }
@@ -42,6 +45,7 @@ class Controller {
         const { id } = req.params;
 
         let response = await this.service.delete(id);
+        logger.info('Controller: Delete', { controller: this.constructor.name, service: this.service.constructor.name, method: 'Delete', requestParams: req.params });
 
         return res.status(response.statusCode).send(response);
     }
