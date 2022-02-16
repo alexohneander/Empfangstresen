@@ -1,11 +1,5 @@
 var router = require('express').Router();
 
-router.get('/', function(req, res, next) {
-    return res.json({ test: "test" });
-});
-
-router.post('/register', function(req, res, next) {
-    return res.json({ status: "ok" });
-});
+router.use('/', require('../../controllers/service'));
 
 module.exports = router;
