@@ -1,6 +1,6 @@
 {
     "name": "empfangstresen",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "Empfangstresen is a Service Registry for cloud-based microservices.",
     "main": "server.js",
     "scripts": {
