@@ -4,8 +4,8 @@
     "description": "Empfangstresen is a Service Registry for cloud-based microservices.",
     "main": "server.js",
     "scripts": {
-        "dev": "nodemon server.js",
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "start": "babel-node index.js",
+        "dev:start": "clear; nodemon --exec babel-node index.js"
     },
     "repository": {
         "type": "git",
@@ -24,12 +24,18 @@
     },
     "homepage": "https://github.com/alexohneander/Empfangstresen#readme",
     "dependencies": {
-        "compression": "^1.7.4",
-        "cors": "^2.8.5",
-        "errorhandler": "^1.5.1",
-        "express": "^4.17.2"
+        "body-parser": "^1.19.2",
+        "express": "^4.17.2",
+        "flaschenpost": "^5.0.50",
+        "mongoose": "^6.2.1",
+        "mongoose-unique-validator": "^3.0.0",
+        "slugify": "^1.6.5"
     },
     "devDependencies": {
+        "@babel/core": "^7.17.4",
+        "@babel/node": "^7.16.8",
+        "@babel/preset-env": "^7.16.11",
+        "babel-loader": "^8.2.3",
         "nodemon": "^2.0.15"
     }
 }
