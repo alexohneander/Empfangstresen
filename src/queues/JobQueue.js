@@ -8,10 +8,10 @@ const logger = flaschenpost.getLogger();
 const redisUrl = require('../../config/queue');
 
 
-const jobQueue = new Queue('JobWorker', redisUrl);
+const jobQueue = new Queue('JobQueue', redisUrl);
 
 jobQueue.process(async job => {
-    const service = job.data;
+    const service = job.data.service;
 
     logger.info('Running job', { service: service });
 
@@ -22,7 +22,7 @@ jobQueue.process(async job => {
                     const httpJob = new CheckHttp(service);
                     const response = await httpJob.execute(service);
 
-                    return Promise.resolve({ done: true, response });
+                    return Promise.resolve({ res: response });
                 }
             case 'tcp':
                 {
@@ -31,7 +31,7 @@ jobQueue.process(async job => {
                 }
             default:
                 {
-                    return Promise.resolve({ done: true, type });
+                    return Promise.resolve({ done: true });
                 }
         }
     } catch (err) {
