@@ -2,6 +2,8 @@
 import mongoose, { Schema } from "mongoose";
 import uniqueValidator from "mongoose-unique-validator";
 
+const jobQueue = require('./../queues/JobQueue');
+
 class Service {
 
     initSchema() {
@@ -17,14 +19,16 @@ class Service {
             version: String,
             public: Boolean,
             interval: Number,
+            type: String,
+            status: String,
+            health: String,
         }, { timestamps: true });
         schema.pre(
             "save",
             function(next) {
                 let service = this;
-                if (!service.isModified("title")) {
-                    return next();
-                }
+
+                jobQueue.add(service, { repeat: { cron: '* * * * *' } });
 
                 return next();
             },
