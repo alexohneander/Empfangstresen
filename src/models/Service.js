@@ -1,7 +1,6 @@
 //src/models/Service.js
 import mongoose, { Schema } from "mongoose";
 import uniqueValidator from "mongoose-unique-validator";
-import slugify from 'slugify';
 
 class Service {
 
@@ -11,19 +10,13 @@ class Service {
                 type: String,
                 required: true,
             },
-            slug: String,
-            subtitle: {
-                type: String,
-                required: false,
-            },
-            description: {
-                type: String,
-                required: false,
-            },
-            content: {
+            namespace: {
                 type: String,
                 required: true,
-            }
+            },
+            version: String,
+            public: Boolean,
+            interval: Number,
         }, { timestamps: true });
         schema.pre(
             "save",
@@ -32,8 +25,7 @@ class Service {
                 if (!service.isModified("title")) {
                     return next();
                 }
-                service.slug = slugify(service.title, "_");
-                console.log('set slug', service.slug);
+
                 return next();
             },
             function(err) {
