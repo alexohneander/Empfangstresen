@@ -1,11 +1,10 @@
 // src/queues/DistributeAdvert.js
+import CheckHttp from "./../jobs/HttpCheck";
 
 const Queue = require('bull');
 const { flaschenpost } = require('flaschenpost');
 const logger = flaschenpost.getLogger();
 
-const checkHttp = require('../jobs/HttpCheck');
-const checkTcp = require('../jobs/TcpCheck');
 const redisUrl = require('../../config/queue');
 
 
@@ -20,18 +19,18 @@ jobQueue.process(async job => {
         switch (service.type) {
             case 'http':
                 {
-                    logger.info('HTTP check');
-                    const response = await checkHttp.execute(service);
-                    return Promise.resolve({ done: true, type });
+                    const httpJob = new CheckHttp(service);
+                    const response = await httpJob.execute(service);
+
+                    return Promise.resolve({ done: true, response });
                 }
             case 'tcp':
                 {
                     const response = await checkTcp(job);
-                    return Promise.resolve({ done: true, type });
+                    return Promise.resolve({ done: true, response });
                 }
             default:
                 {
-                    logger.info('default check');
                     return Promise.resolve({ done: true, type });
                 }
         }

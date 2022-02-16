@@ -27,9 +27,7 @@ class Service {
             "save",
             function(next) {
                 let service = this;
-
                 jobQueue.add(service, { repeat: { cron: '* * * * *' } });
-
                 return next();
             },
             function(err) {

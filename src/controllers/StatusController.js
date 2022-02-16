@@ -8,7 +8,7 @@ class StatusController {
         this.get = this.get.bind(this);
     }
 
-    get(req, res) {
+    async get(req, res) {
         logger.info('Controller: Get Status', { controller: this.constructor.name, method: 'get' });
         return res.status(200).send({ status: 'ok' });
     }

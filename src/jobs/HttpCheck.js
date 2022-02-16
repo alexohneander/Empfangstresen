@@ -1,5 +1,5 @@
 //src/jobs/HttpCheck.js
-
+import request from 'request';
 import Job from './Job';
 import Service from "./../models/Service";
 
@@ -13,7 +13,7 @@ class HttpCheck extends Job {
     }
 
     async runJob() {
-        const { url } = "http://localhost:3000/status";
+        const url = "http://localhost:3000/status";
 
         return new Promise((resolve, reject) => {
             const request = require('request');
@@ -32,4 +32,4 @@ class HttpCheck extends Job {
     }
 }
 
-export default new HttpCheck;
+export default HttpCheck;

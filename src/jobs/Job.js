@@ -11,10 +11,8 @@ class Job {
     }
 
     async execute() {
-        logger.info('Execute');
-
         let response = await this.job.runJob();
-        logger.info(`${this.constructor.name}: Run Job`, { job: this.constructor.name, service: this.service.constructor.name, method: 'execute' });
+        logger.info(`${this.constructor.name}: Job Done`, { job: this.constructor.name, service: this.service.constructor.name, method: 'execute' });
     }
 }
 
